@@ -9,16 +9,19 @@ export default props => (
                 color={todo.getColor()}
             >
                 {todo.getText()}
+                <RemoveTodo onClick={() => props.removeTodo(todo)}>X</RemoveTodo>
             </TodoItem>
         )}
     </TodoView>
 )
 
+const RemoveTodo = styled.span``
 const TodoItem = styled.li`
-    height: 120px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     margin: 0;
+    padding: 10px;
     color: ${({color}) => color};
 `
 const TodosList = styled.ul`

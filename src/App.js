@@ -14,20 +14,29 @@ class App extends Component {
     const {todos} = this.state
     return (
       <AppView>
-        <TodoForm>
+        <TodoForm id="todoForm" onSubmit={this._createTodo}>
           <input type="text" name="new-todo" />
-          <AddTodo onClick={this._createTodo}>Add Todo</AddTodo>
+          <AddTodo>Add Todo</AddTodo>
         </TodoForm>
-        <Todo todos={todos} />
+        <Todo todos={todos} removeTodo={this._removeTodo} />
       </AppView>
     )
   }
   _createTodo = (e) => {
     e.preventDefault()
+    
     const todoText = document.querySelector("[name=new-todo]").value
     const newTodo = new TodoModel(todoText)
-    
-    this.setState({todos: this.state.todos.concat(newTodo)})
+    this.setState({todos: [...this.state.todos, newTodo]})
+    document.getElementById("todoForm").reset()
+  }
+  _removeTodo = todo => {
+    console.log("AYY?")
+    const {todos} = this.state
+
+    this.setState({
+      todos: todos.filter(todo => todo.getText() !== todo.getText())
+    })
   }
 }
 
