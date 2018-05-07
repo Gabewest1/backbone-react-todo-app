@@ -1,8 +1,9 @@
-import Backbone from "backbone"
+const Backbone = require("backbone")
 
-export default Backbone.Model({
-    constructor: (text) => {
-        this.text
+export default Backbone.Model.extend({
+    initialize: (text) => {
+        // debugger
+        this.text = text
     },
     getText: () => {
         return this.text

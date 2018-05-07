@@ -12,9 +12,9 @@ export default class Todo extends React.Component{
 
         return (
             <TodoView {...this.props}>
-                { todos.map(({ text }) => {
-                    <TodoItem key={text}>{text}</TodoItem>
-                })}
+                { todos.map((todo) => 
+                    <TodoItem key={todo.getText()}>{todo.getText()}</TodoItem>
+                )}
             </TodoView>
         )
     }
