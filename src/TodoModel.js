@@ -1,4 +1,5 @@
 const Backbone = require("backbone")
+const colors = ["red", "blue", "green", "yellow", "teal", "orange", "purple"]
 
 export default Backbone.Model.extend({
     initialize: (text) => {
@@ -7,5 +8,6 @@ export default Backbone.Model.extend({
     },
     getText: () => {
         return this.text
-    }
+    },
+    getColor: () => colors[Math.floor(Math.random() * colors.length)] 
 })

@@ -13,7 +13,12 @@ export default class Todo extends React.Component{
         return (
             <TodoView {...this.props}>
                 { todos.map((todo) => 
-                    <TodoItem key={todo.getText()}>{todo.getText()}</TodoItem>
+                    <TodoItem 
+                        key={todo.getText()}
+                        color={todo.getColor()}
+                    >
+                        {todo.getText()}
+                    </TodoItem>
                 )}
             </TodoView>
         )
@@ -25,6 +30,7 @@ const TodoItem = styled.li`
     display: flex;
     align-items: center;
     margin: 0;
+    color: ${({color}) => color};
 `
 const TodosList = styled.ul`
     display: inline-block;
