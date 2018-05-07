@@ -12,7 +12,6 @@ export default Backbone.Model.extend({
         }
     },
     initialize: function(text) {
-        console.log("INITIALIZE", text, this)
         this.set({text})
     }
 })
