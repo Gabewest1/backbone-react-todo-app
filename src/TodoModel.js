@@ -1,13 +1,18 @@
-const Backbone = require("backbone")
+import Backbone from "backbone"
+import Generator from "id-generator"
+
+const g = new Generator()
 const colors = ["red", "blue", "green", "yellow", "teal", "orange", "purple"]
 
 export default Backbone.Model.extend({
-    initialize: (text) => {
-        // debugger
-        this.text = text
+    defaults: function() {
+        return {
+            id: g.newId(),
+            color: colors[Math.floor(Math.random() * colors.length)]
+        }
     },
-    getText: () => {
-        return this.text
-    },
-    getColor: () => colors[Math.floor(Math.random() * colors.length)] 
+    initialize: function(text) {
+        console.log("INITIALIZE", text, this)
+        this.set({text})
+    }
 })

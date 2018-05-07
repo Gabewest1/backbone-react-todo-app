@@ -12,6 +12,9 @@ class App extends Component {
   }
   render() {
     const {todos} = this.state
+    for (let todo in todos) {
+      console.log(todos[todo].get("id"))
+    }
     return (
       <AppView>
         <TodoForm id="todoForm" onSubmit={this._createTodo}>
@@ -30,12 +33,11 @@ class App extends Component {
     this.setState({todos: [...this.state.todos, newTodo]})
     document.getElementById("todoForm").reset()
   }
-  _removeTodo = todo => {
-    console.log("AYY?")
+  _removeTodo = todoToRemove => {
     const {todos} = this.state
 
     this.setState({
-      todos: todos.filter(todo => todo.getText() !== todo.getText())
+      todos: todos.filter(todo => todoToRemove.get("text") !== todo.get("text"))
     })
   }
 }

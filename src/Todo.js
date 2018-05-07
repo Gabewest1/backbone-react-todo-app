@@ -5,10 +5,10 @@ export default props => (
     <TodoView {...props}>
         { props.todos.map((todo) => 
             <TodoItem 
-                key={todo.getText()}
-                color={todo.getColor()}
+                key={todo.get("id")}
+                color={todo.get("color")}
             >
-                {todo.getText()}
+                {todo.get("text")}
                 <RemoveTodo onClick={() => props.removeTodo(todo)}>X</RemoveTodo>
             </TodoItem>
         )}
