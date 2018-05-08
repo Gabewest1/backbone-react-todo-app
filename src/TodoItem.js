@@ -11,7 +11,7 @@ class TodoItem extends React.Component {
         return (
             <TodoItemView {...this.props}>
                 {todo.get("isEditing")
-                    ? <input name="edit-todo" type="text" value={todo.get("text")} onChange={this._handleOnChange} onKeyPress={this._handleKeyPress} />
+                    ? <Input name="edit-todo" type="text" value={todo.get("text")} onChange={this._handleOnChange} onKeyPress={this._handleKeyPress} />
                     : todo.get("text")
                 }
 
@@ -35,7 +35,14 @@ class TodoItem extends React.Component {
     }
 } 
 
-
+class Input extends React.Component {
+    componentDidMount() {
+        this.input.focus()
+    }
+    render() {
+        return <input { ...this.props } ref={input => this.input = input}/>
+    }
+}
 const EditTodo = styled(PencilIcon)`
     width: 15px;
     margin-right: 10px;
