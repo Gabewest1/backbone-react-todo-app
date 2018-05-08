@@ -5,6 +5,7 @@ import withBackbone from "with-backbone"
 
 import Todos from "./Todos.js"
 import TodoModel from "./TodoModel"
+import RainbowText from "./RainbowText"
 
 const TodoCollection = Backbone.Collection.extend({
   model: TodoModel
@@ -22,7 +23,9 @@ class App extends Component {
     return (
       <AppView>
         <Wrapper>
-          <h1>React Backbone TODO</h1>
+          <RainbowText>
+            <h1>React Backbone TODO</h1>
+          </RainbowText>
           <TodoForm id="todoForm" onSubmit={this._createTodo}>
             <input type="text" name="new-todo" />
             <AddTodo>Add Todo</AddTodo>
