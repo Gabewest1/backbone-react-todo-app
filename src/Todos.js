@@ -12,7 +12,9 @@ class Todos extends React.Component {
             <TodosList {...this.props}>
                 { todos.map((todo) => 
                     <TodoItem 
+                        key={todo.get("id")}
                         todo={todo} 
+                        color={todo.get("color")}
                         editTodoStart={editTodoStart}
                         editTodoEnd={editTodoEnd}
                         removeTodo={removeTodo}

@@ -7,13 +7,9 @@ import PencilIcon from "./PencilIcon"
 class TodoItem extends React.Component {
     render() {
         const { todo, editTodoEnd, editTodoStart, removeTodo } = this.props
-        // console.log("PROPS:", props)
+
         return (
-            <TodoItemView 
-                {...this.props}
-                key={todo.get("id")}
-                color={todo.get("color")}
-            >
+            <TodoItemView {...this.props}>
                 {todo.get("isEditing")
                     ? <input name="edit-todo" type="text" onChange={(e) => todo.set("text", e.target.value)} value={todo.get("text")} />
                     : todo.get("text")
