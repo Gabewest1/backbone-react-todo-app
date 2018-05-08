@@ -11,7 +11,7 @@ class TodoItem extends React.Component {
         return (
             <TodoItemView {...this.props}>
                 {todo.get("isEditing")
-                    ? <input name="edit-todo" type="text" onChange={(e) => todo.set("text", e.target.value)} value={todo.get("text")} />
+                    ? <input name="edit-todo" type="text" value={todo.get("text")} onChange={this._handleOnChange} onKeyPress={this._handleKeyPress} />
                     : todo.get("text")
                 }
 
@@ -21,6 +21,17 @@ class TodoItem extends React.Component {
                 </div>
             </TodoItemView>
         )
+    }
+    _handleOnChange = (e) => {
+        const { todo } = this.props
+        todo.set("text", e.target.value)
+    }
+    _handleKeyPress = (e) => {
+        const { todo, editTodoEnd } = this.props
+
+        if (e.key === "Enter") {
+            editTodoEnd(todo)
+        }
     }
 } 
 
