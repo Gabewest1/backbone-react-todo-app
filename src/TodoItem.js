@@ -9,7 +9,7 @@ class TodoItem extends React.Component {
         const { todo, editTodoEnd, editTodoStart, removeTodo } = this.props
 
         return (
-            <TodoItemView {...this.props}>
+            <TodoItemView {...this.props} onDoubleClick={this._handleDoubleClick}>
                 {todo.get("isEditing")
                     ? <AutoFocusInput name="edit-todo" type="text" value={todo.get("text")} onChange={this._handleOnChange} onKeyPress={this._handleKeyPress} />
                     : todo.get("text")
@@ -33,7 +33,11 @@ class TodoItem extends React.Component {
             editTodoEnd(todo)
         }
     }
-} 
+    _handleDoubleClick = (e) => {
+        const { todo, editTodoStart } = this.props        
+        editTodoStart(todo)
+    }
+}
 
 class AutoFocusInput extends React.Component {
     componentDidMount() {
