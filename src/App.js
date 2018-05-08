@@ -15,11 +15,14 @@ class App extends Component {
 
     return (
       <AppView>
-        <TodoForm id="todoForm" onSubmit={this._createTodo}>
-          <input type="text" name="new-todo" />
-          <AddTodo>Add Todo</AddTodo>
-        </TodoForm>
-        <Todo todos={todos} removeTodo={this._removeTodo} />
+        <Wrapper>
+          <h1>React Backbone TODO</h1>
+          <TodoForm id="todoForm" onSubmit={this._createTodo}>
+            <input type="text" name="new-todo" />
+            <AddTodo>Add Todo</AddTodo>
+          </TodoForm>
+          <Todo todos={todos} removeTodo={this._removeTodo} />
+        </Wrapper>
       </AppView>
     )
   }
@@ -41,12 +44,23 @@ class App extends Component {
 }
 
 const AddTodo = styled.button``
-const TodoForm = styled.form``
+const TodoForm = styled.form`
+  display: flex;
+  
+  input {
+    flex: 1;
+    height: 54px;
+    box-sizing: border-box;
+  }
+`
+const Wrapper = styled.div`
+  width: 80%;
+  max-width: 768px;
+  margin: 0 auto;
+  position: relative;
+  top: 20%;
+`
 const AppView = styled.div`
   height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
 `
 export default App

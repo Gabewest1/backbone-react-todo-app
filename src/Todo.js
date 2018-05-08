@@ -2,7 +2,7 @@ import React from "react"
 import styled from "styled-components"
 
 export default props => (
-    <TodoView {...props}>
+    <TodosList {...props}>
         { props.todos.map((todo) => 
             <TodoItem 
                 key={todo.get("id")}
@@ -12,10 +12,12 @@ export default props => (
                 <RemoveTodo onClick={() => props.removeTodo(todo)}>X</RemoveTodo>
             </TodoItem>
         )}
-    </TodoView>
+    </TodosList>
 )
 
-const RemoveTodo = styled.span``
+const RemoveTodo = styled.span`
+    cursor: pointer;
+`
 const TodoItem = styled.li`
     display: flex;
     align-items: center;
@@ -25,10 +27,7 @@ const TodoItem = styled.li`
     color: ${({color}) => color};
 `
 const TodosList = styled.ul`
-    display: inline-block;
-    width: 80%;
-    max-width: 768px;
-    margin: 0 auto;
+    margin: 0;
     padding: 0;
 `
 const TodoView = styled.div``
