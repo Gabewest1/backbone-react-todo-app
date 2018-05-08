@@ -8,7 +8,8 @@ export default Backbone.Model.extend({
     defaults: function() {
         return {
             id: g.newId(),
-            color: colors[Math.floor(Math.random() * colors.length)]
+            color: colors[Math.floor(Math.random() * colors.length)],
+            isEditing: false
         }
     },
     initialize: function(text) {
