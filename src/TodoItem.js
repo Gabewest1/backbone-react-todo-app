@@ -74,6 +74,8 @@ const TodoItemView = styled.li`
     margin: 0;
     height: 51px;
     padding: 0px 15px;
+    font-weight: bolder;
+    font-size: 20px;
     background: ${({todo}) => todo.get("background")};    
     color: ${({todo}) => todo.get("color")};
 
