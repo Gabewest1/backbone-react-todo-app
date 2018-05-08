@@ -11,7 +11,7 @@ class TodoItem extends React.Component {
         return (
             <TodoItemView {...this.props}>
                 {todo.get("isEditing")
-                    ? <Input name="edit-todo" type="text" value={todo.get("text")} onChange={this._handleOnChange} onKeyPress={this._handleKeyPress} />
+                    ? <AutoFocusInput name="edit-todo" type="text" value={todo.get("text")} onChange={this._handleOnChange} onKeyPress={this._handleKeyPress} />
                     : todo.get("text")
                 }
 
@@ -35,14 +35,24 @@ class TodoItem extends React.Component {
     }
 } 
 
-class Input extends React.Component {
+class AutoFocusInput extends React.Component {
     componentDidMount() {
         this.input.focus()
     }
     render() {
-        return <input { ...this.props } ref={input => this.input = input}/>
+        return <AutoFocusInputView { ...this.props } innerRef={input => this.input = input}/>
     }
 }
+
+const AutoFocusInputView = styled.input`
+    height: 100%;
+    padding: inherit;
+    margin-left: -15px;
+    border: none;
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+`
 const EditTodo = styled(PencilIcon)`
     width: 15px;
     margin-right: 10px;
@@ -58,8 +68,10 @@ const TodoItemView = styled.li`
     align-items: center;
     justify-content: space-between;
     margin: 0;
-    padding: 15px 0px;
-    color: ${({color}) => color};
+    height: 51px;
+    padding: 0px 15px;
+    background: ${({todo}) => todo.get("background")};    
+    color: ${({todo}) => todo.get("color")};
 
     svg {
         fill: ${({color}) => color};

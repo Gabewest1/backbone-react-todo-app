@@ -1,14 +1,15 @@
 import Backbone from "backbone"
 import Generator from "id-generator"
+import randomColor from "random-color"
 
 const g = new Generator()
-const colors = ["red", "blue", "green", "yellow", "teal", "orange", "purple"]
 
 export default Backbone.Model.extend({
     defaults: function() {
         return {
             id: g.newId(),
-            color: colors[Math.floor(Math.random() * colors.length)],
+            background: randomColor().hexString(),
+            color: randomColor(0.99, 0.99).hexString(),
             isEditing: false
         }
     },
