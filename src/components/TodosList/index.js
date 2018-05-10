@@ -4,12 +4,12 @@ import withBackbone from "with-backbone"
 
 import TodoItem from "./TodoItem"
 
-class Todos extends React.Component {
+class TodosList extends React.Component {
     render() {
         const { todos, editTodoStart, editTodoEnd, removeTodo } = this.props
         console.log("PROPS:", this.props)
         return (
-            <TodosList {...this.props}>
+            <TodosListView {...this.props}>
                 { todos.map((todo) => 
                     <TodoItem 
                         key={todo.get("id")}
@@ -20,14 +20,14 @@ class Todos extends React.Component {
                         removeTodo={removeTodo}
                     />
                 )}
-            </TodosList>
+            </TodosListView>
         )
     }
 } 
 
-const TodosList = styled.ul`
+const TodosListView = styled.ul`
     margin: 0;
     padding: 0;
 `
 
-export default withBackbone(Todos)
+export default withBackbone(TodosList)

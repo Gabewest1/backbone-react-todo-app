@@ -3,13 +3,11 @@ import styled from "styled-components"
 import Backbone from "backbone"
 import withBackbone from "with-backbone"
 
-import Todos from "./Todos.js"
-import TodoModel from "./TodoModel"
-import RainbowText from "./RainbowText"
+import TodosList from "./components/TodosList"
+import RainbowText from "./components/shared/RainbowText"
 
-const TodoCollection = Backbone.Collection.extend({
-  model: TodoModel
-})
+import TodoModel from "./models/TodoModel"
+import TodoCollection from "./collections/TodoCollection"
 
 class App extends Component {
   state = {
@@ -30,7 +28,7 @@ class App extends Component {
             <input type="text" name="new-todo" />
             <AddTodo>Add Todo</AddTodo>
           </TodoForm>
-          <Todos
+          <TodosList
             todos={todos}
             editTodoStart={this._editTodoStart}
             editTodoEnd={this._editTodoEnd}

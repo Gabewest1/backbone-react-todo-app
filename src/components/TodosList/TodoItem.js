@@ -2,7 +2,7 @@ import React from "react"
 import styled from "styled-components"
 import withBackbone from "with-backbone"
 
-import PencilIcon from "./PencilIcon"
+import PencilIcon from "../shared/PencilIcon"
 
 class TodoItem extends React.Component {
     render() {
