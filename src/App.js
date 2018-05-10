@@ -51,11 +51,9 @@ class App extends Component {
   }
   _editTodoStart = todo => {
     todo.set("isEditing", true)
-    console.log(todo)
   }
   _editTodoEnd = todo => {
     todo.set("isEditing", false)
-    console.log("FINISHED:", todo)    
   }
 }
 

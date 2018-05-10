@@ -80,7 +80,7 @@ const TodoItemView = styled.li`
     color: ${({todo}) => todo.get("color")};
 
     svg {
-        fill: ${({color}) => color};
+        fill: ${({todo}) => todo.get("color")};
     }
 `
 

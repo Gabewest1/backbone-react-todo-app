@@ -7,14 +7,13 @@ import TodoItem from "./TodoItem"
 class TodosList extends React.Component {
     render() {
         const { todos, editTodoStart, editTodoEnd, removeTodo } = this.props
-        console.log("PROPS:", this.props)
+
         return (
             <TodosListView {...this.props}>
                 { todos.map((todo) => 
                     <TodoItem 
                         key={todo.get("id")}
                         todo={todo} 
-                        color={todo.get("color")}
                         editTodoStart={editTodoStart}
                         editTodoEnd={editTodoEnd}
                         removeTodo={removeTodo}
