@@ -12,14 +12,16 @@ import TodoCollection from "./collections/TodoCollection"
 class App extends Component {
   state = {
     todos: new TodoCollection([
+      new TodoModel("Delete this"),
+      new TodoModel("Delete this"),
       new TodoModel("Delete this")
     ])
   }
   render() {
     const {todos} = this.state
-
+    console.log(todos.getFirst(2))
     return (
-      <AppView>
+      <AppView { ...this.state }>
         <Wrapper>
           <RainbowText>
             <h1>React Backbone TODO</h1>
@@ -29,7 +31,7 @@ class App extends Component {
             <AddTodo>Add Todo</AddTodo>
           </TodoForm>
           <TodosList
-            todos={todos}
+            todos={todos.getFirst(2)}
             removeTodo={this._removeTodo}
           />
         </Wrapper>
