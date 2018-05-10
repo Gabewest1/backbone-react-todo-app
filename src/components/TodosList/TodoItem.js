@@ -6,7 +6,7 @@ import PencilIcon from "../shared/PencilIcon"
 
 class TodoItem extends React.Component {
     render() {
-        const { todo, editTodoEnd, editTodoStart, removeTodo } = this.props
+        const { todo, removeTodo } = this.props
 
         return (
             <TodoItemView {...this.props} onDoubleClick={this._handleDoubleClick}>
@@ -16,7 +16,7 @@ class TodoItem extends React.Component {
                 }
 
                 <div>
-                    <EditTodo alt="edit todo" onClick={() => todo.get("isEditing") ? editTodoEnd(todo) : editTodoStart(todo)} />
+                    <EditTodo alt="edit todo" onClick={this._toggleIsEditing} />
                     <RemoveTodo onClick={() => removeTodo(todo)}>X</RemoveTodo>
                 </div>
             </TodoItemView>
@@ -30,12 +30,17 @@ class TodoItem extends React.Component {
         const { todo, editTodoEnd } = this.props
 
         if (e.key === "Enter") {
-            editTodoEnd(todo)
+            todo.set("isEditing", false)
         }
     }
+    _toggleIsEditing = () => {
+        const { todo } = this.props
+
+        todo.set("isEditing", !todo.get("isEditing"))
+    }
     _handleDoubleClick = (e) => {
-        const { todo, editTodoStart } = this.props        
-        editTodoStart(todo)
+        const { todo } = this.props        
+        todo.set("isEditing", true)
     }
 }
 

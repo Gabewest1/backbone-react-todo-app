@@ -30,8 +30,6 @@ class App extends Component {
           </TodoForm>
           <TodosList
             todos={todos}
-            editTodoStart={this._editTodoStart}
-            editTodoEnd={this._editTodoEnd}
             removeTodo={this._removeTodo}
           />
         </Wrapper>
@@ -48,12 +46,6 @@ class App extends Component {
   }
   _removeTodo = todo => {
     this.state.todos.remove(todo)
-  }
-  _editTodoStart = todo => {
-    todo.set("isEditing", true)
-  }
-  _editTodoEnd = todo => {
-    todo.set("isEditing", false)
   }
 }
 

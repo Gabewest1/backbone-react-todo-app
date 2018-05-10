@@ -14,8 +14,6 @@ class TodosList extends React.Component {
                     <TodoItem 
                         key={todo.get("id")}
                         todo={todo} 
-                        editTodoStart={editTodoStart}
-                        editTodoEnd={editTodoEnd}
                         removeTodo={removeTodo}
                     />
                 )}
