@@ -53,10 +53,6 @@ class App extends Component {
       </AppView>
     )
   }
-  _updateState = () => {
-    console.log("AYy")
-    this.setState({updateState: !this.state.updateState})
-  }
   _createTodo = (e) => {
     e.preventDefault()
     
@@ -93,7 +89,7 @@ const AddTodo = styled.button``
 const FilterOption = styled.div`
   display: flex;
   align-items: center;
-  
+
   label {
     margin-right: 7px;
   }
