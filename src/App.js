@@ -90,10 +90,22 @@ class App extends Component {
 }
 
 const AddTodo = styled.button``
-const FilterOption = styled.div``
+const FilterOption = styled.div`
+  display: flex;
+  align-items: center;
+  
+  label {
+    margin-right: 7px;
+  }
+  input[type=checkbox] {
+    width: 18px;
+    height: 18px;
+  }
+`
 const Filters = styled.div`
   display: flex;
   justify-content: space-between;
+  margin-bottom: 10px;
 `
 const TodoForm = styled.form`
   display: flex;
