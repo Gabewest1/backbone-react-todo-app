@@ -16,18 +16,21 @@ const TodoCollection = Backbone.Collection.extend({
 
     filterBy: function (params){
         let {text, first, reverse} = params
-        let filteredColl = this.models
-
+        let filteredColl = new Backbone.Collection(this.models).models
+        console.log(filteredColl)
+        
+        if (reverse) {
+            console.log("JKLFJLFJKLE", this.filtered.params.reverse, reverse)
+            filteredColl = filteredColl.reverse()
+        }
         if (first) {
             filteredColl = filteredColl.slice(0, first)
         }
         if (text) {
             filteredColl = filteredColl.filter(todo => todo.get("text").toLowerCase().includes(text.toLowerCase()))
         }
-        if (this.filtered.params.reverse !== reverse) {
-            filteredColl = filteredColl.reverse()
-        }
-
+        console.log(filteredColl)
+        console.log("---------------------------")
         this.filtered.params = params
         this.filtered.reset(filteredColl)
     },
