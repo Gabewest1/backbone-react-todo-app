@@ -68,17 +68,11 @@ class App extends Component {
     const showFirst = document.querySelector("[name='showFirst']")
     const reverse = document.querySelector("[name='reverse']")
     const containsText = document.querySelector("[name='containsText']")
-    const filterParams = {}
-    
-    if (showFirst && showFirst.value) {
-      filterParams.first = showFirst.value
-    }
-    
-    if (containsText && containsText.value) {
-      filterParams.text = containsText.value
-    }
-    if (reverse) {
-      filterParams.reverse = reverse.checked
+
+    const filterParams = {
+      first: showFirst && showFirst.value,
+      text: containsText && containsText.value,
+      reverse: reverse && reverse.checked
     }
 
     this.state.todos.filterBy(filterParams)
