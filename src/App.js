@@ -42,12 +42,13 @@ class App extends Component {
             </FilterOption>
           </Filters>
           <TodoForm id="todoForm" onSubmit={this._createTodo}>
-            <input type="text" name="new-todo" />
-            <AddTodo>Add Todo</AddTodo>
+            <input type="text" name="new-todo" data-test="newTodoInput" />
+            <AddTodo data-test="newTodoBtn">Add Todo</AddTodo>
           </TodoForm>
           <TodosList
             todos={todos.filtered}
             removeTodo={this._removeTodo}
+            data-test="todos"
           />
         </Wrapper>
       </AppView>
