@@ -1,12 +1,21 @@
 function getElement(selector) {
     return cy.get(`[data-test=${selector}`)
 }
-function addTodo() {
-    getElement("newTodoInput").type("This is a new todo")
+function addTodo(text = "This is a new todo") {
+    getElement("newTodoInput").type(text)
     getElement("newTodoBtn").click()
 }
 function removeTodo(todoIndex = 0) {
-    getElement("removeTodo").within(todos => todos[todoIndex].click())
+    getElement("removeTodo").then(todos => todos[todoIndex].click())
+}
+function editTodo(todoIndex = 0, newText = "New Text") {
+    getElement("todo").eq(todoIndex).within(todos => {
+        cy.get("[data-test=editTodo]").click()
+        cy.get("[data-test=editTodoInput]")
+            .clear()
+            .type(newText)
+        cy.get("[data-test=editTodo]").click()
+    })
 }
 
 describe("Todo Application", () => {
@@ -46,6 +55,17 @@ describe("Todo Application", () => {
         cy.wait(2000).then(() => expect(numTodosBefore).to.equal(numTodosAfter))
     })
     it("Modifies a todo", () => {
+        const originalText = "This is the first text"
+        const newText = "This is the new Text"
 
+        getElement("todo").then(todos => {
+            const indexOfNewTodo = todos.length
+
+            addTodo(originalText)
+            getElement("todo").last().contains(originalText)
+            
+            editTodo(indexOfNewTodo, newText)
+            getElement("todo").last().contains(newText)
+        })
     })
 }) 
