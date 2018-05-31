@@ -30,15 +30,15 @@ class App extends Component {
           <Filters>
             <FilterOption>
               <label>Show First:</label>
-              <input type="number" name="showFirst" min={0} max={todos.length} onChange={this._applyFilters} />
+              <input type="number" name="showFirst" min={0} max={todos.length} data-test="limitTodos" onChange={this._applyFilters} />
             </FilterOption>
             <FilterOption>
               <label>Reverse:</label>
-              <input type="checkbox" name="reverse" onChange={this._applyFilters} />
+              <input type="checkbox" name="reverse" data-test="reverseTodos" onChange={this._applyFilters} />
             </FilterOption>
             <FilterOption>
               <label>Contains Text:</label>
-              <input type="text" name="containsText" onChange={this._applyFilters} />
+              <input type="text" name="containsText" data-test="filterTodos" onChange={this._applyFilters} />
             </FilterOption>
           </Filters>
           <TodoForm id="todoForm" onSubmit={this._createTodo}>
