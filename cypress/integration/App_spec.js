@@ -106,7 +106,14 @@ describe("Todo Application", () => {
 
         })
     })
-    it("Shows todos with the text: 'Hello World'", () => {
-        
+    it("Filters todos without the text: 'Hello World'", () => {
+        addTodo("Wello Horld")
+        addTodo("Hello World")
+        addTodo("Hello World Mama")
+
+        getElement("filterTodos").type("Hello World")
+
+        getElement("todo")
+            .should("have.length", 2)
     })
 }) 
