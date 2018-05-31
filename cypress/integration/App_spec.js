@@ -68,4 +68,13 @@ describe("Todo Application", () => {
             getElement("todo").last().contains(newText)
         })
     })
+    it("Reverses the order of the todos", () => {
+        
+    })
+    it("Shows the first 2 todos", () => {
+
+    })
+    it("Shows todos with the text: 'Hello World'", () => {
+        
+    })
 }) 
