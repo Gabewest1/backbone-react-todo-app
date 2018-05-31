@@ -84,7 +84,27 @@ describe("Todo Application", () => {
         })
     })
     it("Shows the first 2 todos", () => {
+        const numTodosStarting = 5
+        const numTodosMax = 2
+        
+        getElement("todo").then(todos => {
+            let numTodosBefore = todos.length
+            while (numTodosBefore < numTodosStarting) {
+                addTodo()
+                numTodosBefore++
+            }
 
+            getElement("todo").then(todos => {
+                expect(todos.length).to.equal(numTodosBefore)
+
+                getElement("limitTodos").clear().type(numTodosMax)
+
+                getElement("todo").then(todos => {
+                    expect(todos.length).to.equal(numTodosMax)
+                })
+            })
+
+        })
     })
     it("Shows todos with the text: 'Hello World'", () => {
         
