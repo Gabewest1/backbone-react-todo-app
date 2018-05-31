@@ -69,7 +69,19 @@ describe("Todo Application", () => {
         })
     })
     it("Reverses the order of the todos", () => {
-        
+        getElement("todo").then(todosBefore => {
+            getElement("reverseTodos").click()
+
+            getElement("todo").then(todosAfter => {
+                for (
+                    var i = 0, j = todosAfter.length-1;
+                    i < todosAfter.length;
+                    i++, j--
+                ) {
+                    expect(todosBefore.eq(i).text()).to.equal(todosAfter.eq(j).text())
+                }
+            })
+        })
     })
     it("Shows the first 2 todos", () => {
 
