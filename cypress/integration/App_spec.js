@@ -39,20 +39,15 @@ describe("Todo Application", () => {
         cy.wait(2000).then(() => expect(numTodosAfter).to.equal(numTodosBefore + 1))
     })
     it("Deletes a todo", () => {
-        let numTodosBefore
-        let numTodosAfter
-        
         addTodo()
-        getElement("todos").children().should(el => {
-          numTodosBefore = Array.from(el).length  
-        })
-
-        removeTodo()
-        getElement("todos").children().should(el => {
-            numTodosAfter = Array.from(el).length  
-        })
-  
-        cy.wait(2000).then(() => expect(numTodosBefore).to.equal(numTodosAfter))
+        getElement("todo").then(todosBefore => {
+          removeTodo()
+          getElement("todo").then(todosAfter => {
+              let numTodosBefore = todosBefore.length
+              let numTodosAfter = todosAfter.length  
+              expect(numTodosBefore).to.equal(numTodosAfter)
+          })
+        })  
     })
     it("Modifies a todo", () => {
         const originalText = "This is the first text"
