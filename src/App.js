@@ -1,12 +1,8 @@
 import React, { Component } from 'react'
 import styled from "styled-components"
-import Backbone from "backbone"
 
 import TodoApplication from "./components/TodoApplication"
 import RainbowText from "./components/shared/RainbowText"
-
-import TodoModel from "./models/TodoModel"
-import TodoCollection from "./collections/TodoCollection"
 
 class App extends Component {
   render() {
