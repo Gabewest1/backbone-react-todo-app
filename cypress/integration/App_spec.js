@@ -23,30 +23,24 @@ describe("Todo Application", () => {
         cy.visit("http://localhost:3000")
     })
     it("Adds a new todo", () => {
-        let numTodosBefore
-        let numTodosAfter
-        
-        getElement("todos").children().should(el => {
-          numTodosBefore = Array.from(el).length  
-        })
-
-        addTodo()
-
-        getElement("todos").children().should(el => {
-            numTodosAfter = Array.from(el).length  
-        })
-  
-        cy.wait(2000).then(() => expect(numTodosAfter).to.equal(numTodosBefore + 1))
+        getElement("todo").then(todosBefore => {
+            addTodo()
+            getElement("todo").then(todosAfter => {
+                let numTodosBefore = todosBefore.length
+                let numTodosAfter = todosAfter.length  
+                expect(numTodosAfter).to.equal(numTodosBefore + 1)
+            })
+        }) 
     })
     it("Deletes a todo", () => {
         addTodo()
         getElement("todo").then(todosBefore => {
-          removeTodo()
-          getElement("todo").then(todosAfter => {
-              let numTodosBefore = todosBefore.length
-              let numTodosAfter = todosAfter.length  
-              expect(numTodosBefore).to.equal(numTodosAfter)
-          })
+            removeTodo()
+            getElement("todo").then(todosAfter => {
+                let numTodosBefore = todosBefore.length
+                let numTodosAfter = todosAfter.length  
+                expect(numTodosBefore).to.equal(numTodosAfter)
+            })
         })  
     })
     it("Modifies a todo", () => {
