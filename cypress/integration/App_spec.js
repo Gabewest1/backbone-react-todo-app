@@ -20,7 +20,7 @@ function editTodo(todoIndex = 0, newText = "New Text") {
 
 describe("Todo Application", () => {
     beforeEach(() => {
-        cy.visit("http://localhost:3000")
+        cy.visit("http://localhost:3000/home")
     })
     it("Adds a new todo", () => {
         getElement("todo").then(todosBefore => {
