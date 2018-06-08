@@ -9,23 +9,17 @@ class App extends Component {
   render() {
     return (
       <BrowserRouter>
-        <AppView { ...this.props }>
-            <Route exact path="/" component={ Login } />
-            <Route exact path="/home" component={ Home } />
+        <AppView {...this.props}>
+          <Route exact path="/" component={Login} />
+          <Route exact path="/home" component={Home} />
         </AppView>
       </BrowserRouter>
     )
   }
 }
 
-const Wrapper = styled.div`
-  width: 80%;
-  max-width: 768px;
-  margin: 0 auto;
-  position: relative;
-  top: 20%;
-`
 const AppView = styled.div`
   height: 100vh;
 `
+
 export default App
