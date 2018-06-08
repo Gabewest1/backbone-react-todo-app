@@ -4,11 +4,14 @@ import randomColor from "random-color"
 
 export default class RainbowText extends React.Component {
     state = { color: randomColor().hexString(), timing: 1500 }
-    componentDidMount() {
-        setInterval(() => this.setState({ color: randomColor().hexString() }), this.state.timing)
-    }
     render () {
         return <HeaderView { ...this.props } { ...this.state}>{ this.props.children }</HeaderView>
+    }
+    componentDidMount() {
+        this.timer = setInterval(() => this.setState({ color: randomColor().hexString() }), this.state.timing)
+    }
+    componentWillUnmount() {
+        this.timer = clearInterval(this.timer)
     }
 }
 
