@@ -1,20 +1,19 @@
 import React, { Component } from 'react'
 import styled from "styled-components"
+import { Route, BrowserRouter } from "react-router-dom"
 
-import TodoApplication from "./components/TodoApplication"
-import RainbowText from "./components/shared/RainbowText"
+import Home from "./pages/Home"
+import Login from "./pages/Login"
 
 class App extends Component {
   render() {
     return (
-      <AppView { ...this.state }>
-        <Wrapper>
-          <RainbowText>
-            <h1>React Backbone TODO</h1>
-          </RainbowText>
-          <TodoApplication />
-        </Wrapper>
-      </AppView>
+      <BrowserRouter>
+        <AppView { ...this.props }>
+            <Route exact match="/" component={ Login } />
+            <Route exact match="/home" component={ Home } />
+        </AppView>
+      </BrowserRouter>
     )
   }
 }
