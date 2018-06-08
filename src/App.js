@@ -10,8 +10,8 @@ class App extends Component {
     return (
       <BrowserRouter>
         <AppView { ...this.props }>
-            <Route exact match="/" component={ Login } />
-            <Route exact match="/home" component={ Home } />
+            <Route exact path="/" component={ Login } />
+            <Route exact path="/home" component={ Home } />
         </AppView>
       </BrowserRouter>
     )
