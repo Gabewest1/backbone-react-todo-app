@@ -7,6 +7,7 @@ const app = express()
 
 const UserModel = require("./UserModel")
 
+app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 const PORT = process.env.PORT || 3001
@@ -49,8 +50,8 @@ app.post("/login", (req, res) => {
                 res.status(400)
                 res.json(errors)
             } else {
-                res.status(200)
-                res.redirect("/home")
+                console.log("FOUND USER:", user)
+                res.sendStatus(200)
             }
         }
 
@@ -72,7 +73,7 @@ app.post("/signup", (req, res) => {
         ]
     }
 
-    User.findOne(query, (err, user) => {
+    UserModel.findOne(query, (err, user) => {
         if (err) {
             console.log(err)
             res.sendStatus(500)    
@@ -85,7 +86,7 @@ app.post("/signup", (req, res) => {
             res.status(400)
             res.json(errors)
         } else {
-            const newUser = new User()
+            const newUser = new UserModel()
 
             newUser.username = username
             newUser.email = email
