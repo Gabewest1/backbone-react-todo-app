@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react"
 import styled from "styled-components"
 
 import TodoApplication from "../../components/TodoApplication"
@@ -7,7 +7,7 @@ import RainbowText from "../../components/shared/RainbowText"
 class Home extends React.Component {
   render() {
     return (
-      <HomeView { ...this.state }>
+      <HomeView {...this.state}>
         <Wrapper>
           <RainbowText>
             <h1>React Backbone TODO</h1>

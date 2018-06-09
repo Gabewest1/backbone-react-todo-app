@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react"
 import styled from "styled-components"
 import { Redirect } from "react-router-dom"
 
@@ -8,7 +8,7 @@ const LOGIN_FORM = "LOGIN_FORM"
 const SIGNUP_FORM = "SIGNUP_FORM"
 
 class Login extends React.Component {
-  state = { 
+  state = {
     isLoggedIn: false,
     loginForm: { errors: {} },
     signUpForm: { errors: {} },
@@ -17,17 +17,25 @@ class Login extends React.Component {
     showSpinner: false,
     setSpinner: false,
     spinnerDuration: 2000,
-    shouldRedirect: false
+    shouldRedirect: false,
   }
   render() {
-    const { activeForm, shouldRedirect, isLoggedIn, isLoading, spinnerDuration, setSpinner, showSpinner } = this.state
+    const {
+      activeForm,
+      shouldRedirect,
+      isLoggedIn,
+      isLoading,
+      spinnerDuration,
+      setSpinner,
+      showSpinner,
+    } = this.state
 
     const shouldShowSpinner = isLoading && setSpinner
     if (shouldShowSpinner) {
       setTimeout(() => {
         this.setState({ showSpinner: true, setSpinner: false })
         setTimeout(() => {
-          this.setState({ showSpinner: false })      
+          this.setState({ showSpinner: false })
         }, spinnerDuration)
       }, 1)
     }
@@ -35,9 +43,9 @@ class Login extends React.Component {
     if (shouldRedirect && !showSpinner) {
       return <Redirect to="/home" push />
     }
-    
+
     return (
-      <LoginView { ...this.state }>
+      <LoginView {...this.state}>
         <Wrapper>
           <RainbowText>
             <h1>React Backbone TODO</h1>
@@ -46,31 +54,31 @@ class Login extends React.Component {
           <FormsContainer>
             <FormWrapper>
               <h1>Login</h1>
-              <Form onSubmit={ this._handleLogin }>
-                {(showSpinner || isLoading) && activeForm === LOGIN_FORM
-                ? <p>Logging in</p>
-                :
-                <div>
-                  <InputWrapper>
-                    <label>Username or Email:</label>
-                    <input type="text" name="username" />
-                  </InputWrapper>
-                  <InputWrapper>
-                    <label>Password:</label>
-                    <input type="text" name="password" />
-                  </InputWrapper>
-                </div>
-                }
+              <Form onSubmit={this._handleLogin}>
+                {(showSpinner || isLoading) && activeForm === LOGIN_FORM ? (
+                  <p>Logging in</p>
+                ) : (
+                  <div>
+                    <InputWrapper>
+                      <label>Username or Email:</label>
+                      <input type="text" name="username" />
+                    </InputWrapper>
+                    <InputWrapper>
+                      <label>Password:</label>
+                      <input type="text" name="password" />
+                    </InputWrapper>
+                  </div>
+                )}
                 <SubmitButton>Login</SubmitButton>
               </Form>
             </FormWrapper>
 
             <FormWrapper>
               <h1>Sign Up</h1>
-              <Form onSubmit={ this._handleSignUp }>
-                {(showSpinner || isLoading) && activeForm === SIGNUP_FORM
-                ? <p>Registering Your Account :D</p>
-                :
+              <Form onSubmit={this._handleSignUp}>
+                {(showSpinner || isLoading) && activeForm === SIGNUP_FORM ? (
+                  <p>Registering Your Account :D</p>
+                ) : (
                   <div>
                     <InputWrapper>
                       <label>Email</label>
@@ -85,13 +93,12 @@ class Login extends React.Component {
                       <input type="text" name="password" />
                     </InputWrapper>
                   </div>
-                }
+                )}
 
                 <SubmitButton>Register</SubmitButton>
               </Form>
             </FormWrapper>
           </FormsContainer>
-
         </Wrapper>
       </LoginView>
     )
@@ -102,17 +109,21 @@ class Login extends React.Component {
     const username = e.target.querySelector("[name=username]").value
     const password = e.target.querySelector("[name=password]").value
 
-    fetch("/login", { 
-      method: "POST", 
+    fetch("/login", {
+      method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify({ username, password }) 
+      body: JSON.stringify({ username, password }),
     })
       .then(res => {
         console.log("GOT LOGIN RES:", res)
         if (res.status === 200) {
-          this.setState({ shouldRedirect: true, isLoggedIn: true, isLoading: false })
+          this.setState({
+            shouldRedirect: true,
+            isLoggedIn: true,
+            isLoading: false,
+          })
         } else {
           res.json().then(err => {
             console.log("LOGIN ERRORS:", err)
@@ -133,18 +144,22 @@ class Login extends React.Component {
     const email = e.target.querySelector("[name=email]").value
     const username = e.target.querySelector("[name=username]").value
     const password = e.target.querySelector("[name=password]").value
-    
-    fetch("/signup", { 
-      method: "POST", 
+
+    fetch("/signup", {
+      method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify({ email, username, password }) 
+      body: JSON.stringify({ email, username, password }),
     })
       .then(res => {
         console.log("GOT SIGN UP RES:", res)
         if (res.status === 200) {
-          this.setState({ shouldRedirect: true, isLoggedIn: true, isLoading: false })
+          this.setState({
+            shouldRedirect: true,
+            isLoggedIn: true,
+            isLoading: false,
+          })
         } else {
           res.json().then(err => {
             console.log("SIGN UP ERRORS:", err)
@@ -156,8 +171,12 @@ class Login extends React.Component {
         console.log("SIGN UP ERROR:", err)
         this.setState({ SignUpForm: { errors: err }, isLoading: false })
       })
-    
-    this.setState({ isLoading: true, setSpinner: true, activeForm: SIGNUP_FORM })  
+
+    this.setState({
+      isLoading: true,
+      setSpinner: true,
+      activeForm: SIGNUP_FORM,
+    })
   }
 }
 
@@ -166,9 +185,9 @@ const options = {
   length: 20,
   width: 10,
   radius: 30,
-  scale: 1.00,
+  scale: 1.0,
   corners: 1,
-  color: '#000',
+  color: "#000",
   opacity: 0.25,
   rotate: 0,
   direction: 1,
@@ -176,11 +195,11 @@ const options = {
   trail: 60,
   fps: 20,
   zIndex: 2e9,
-  top: '50%',
-  left: '50%',
+  top: "50%",
+  left: "50%",
   shadow: false,
   hwaccel: false,
-  position: 'absolute'
+  position: "absolute",
 }
 
 const SubmitButton = styled.button``
@@ -201,7 +220,7 @@ const Wrapper = styled.div`
   top: 20%;
 `
 const LoginView = styled.div`
- height: 100vh;
+  height: 100vh;
 `
 const FormWrapper = styled.div``
 const FormsContainer = styled.div`
