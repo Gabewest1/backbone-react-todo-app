@@ -28,8 +28,8 @@ describe("Todo Application", () => {
     getElement("todo").then(todosBefore => {
       addTodo()
       getElement("todo").then(todosAfter => {
-        let numTodosBefore = todosBefore.length
-        let numTodosAfter = todosAfter.length
+        const numTodosBefore = todosBefore.length
+        const numTodosAfter = todosAfter.length
         expect(numTodosAfter).to.equal(numTodosBefore + 1)
       })
     })
@@ -39,8 +39,8 @@ describe("Todo Application", () => {
     getElement("todo").then(todosBefore => {
       removeTodo()
       getElement("todo").then(todosAfter => {
-        let numTodosBefore = todosBefore.length
-        let numTodosAfter = todosAfter.length
+        const numTodosBefore = todosBefore.length
+        const numTodosAfter = todosAfter.length
         expect(numTodosBefore).to.equal(numTodosAfter)
       })
     })
@@ -68,11 +68,7 @@ describe("Todo Application", () => {
       getElement("reverseTodos").click()
 
       getElement("todo").then(todosAfter => {
-        for (
-          var i = 0, j = todosAfter.length - 1;
-          i < todosAfter.length;
-          i++, j--
-        ) {
+        for (var i = 0, j = todosAfter.length - 1; i < todosAfter.length; i++, j--) {
           expect(todosBefore.eq(i).text()).to.equal(todosAfter.eq(j).text())
         }
       })

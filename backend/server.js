@@ -1,7 +1,9 @@
 const express = require("express")
 const mongoose = require("mongoose")
 const bodyParser = require("body-parser")
+const session = require("express-session")
 const cookieSession = require("cookie-session")
+const cookieParser = require("cookie-parser")
 const path = require("path")
 
 const app = express()
@@ -10,9 +12,28 @@ const UserModel = require("./UserModel")
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
+app.use(cookieParser())
 
 const PORT = process.env.PORT || 3001
 
+app.use(
+  session({
+    secret: "jfkdlsjfkldjslkejjfkdjlksjfkl",
+    resave: false,
+    saveUninitialized: true,
+    // cookieSession: true,
+  })
+)
+// app.use(
+//   cookieSession({
+//     keys: ["thiskeyencryptsdata"],
+//     maxAge: 24 * 60 * 60 * 1000,
+//     saveUninitialized: true,
+//     resave: false,
+//   })
+// )
+
+//Connect to database
 mongoose.connect(
   "mongodb://localhost:27017/todoTracker",
   () => {
@@ -20,14 +41,10 @@ mongoose.connect(
   }
 )
 
-app.use(
-  cookieSession({
-    keys: ["thiskeyencryptsdata"],
-    maxAge: 24 * 60 * 60 * 1000,
-    saveUninitialized: true,
-    resave: false
-  })
-)
+app.get("/", (req, res) => {
+  console.log("Getting index")
+  res.end()
+})
 
 app.put("/saveme", (req, res) => {
   console.log("SAVEME")
@@ -41,8 +58,8 @@ app.post("/login", (req, res) => {
   const query = {
     $or: [
       { username: { $regex: `^${username}$`, $options: "i" } },
-      { email: { $regex: `^${username}$`, $options: "i" } }
-    ]
+      { email: { $regex: `^${username}$`, $options: "i" } },
+    ],
   }
 
   UserModel.findOne(query, (err, user) => {
@@ -51,8 +68,7 @@ app.post("/login", (req, res) => {
     } else {
       const errors = {}
 
-      const foundUser =
-        user && (user.username === username || user.email === username)
+      const foundUser = user && (user.username === username || user.email === username)
       const isValidPassword = foundUser && user.validPassword(password)
 
       errors.username = !foundUser ? "User not found" : undefined
@@ -83,8 +99,8 @@ app.post("/signup", (req, res) => {
   const query = {
     $or: [
       { username: { $regex: `^${username}$`, $options: "i" } },
-      { email: { $regex: `^${email}$`, $options: "i" } }
-    ]
+      { email: { $regex: `^${email}$`, $options: "i" } },
+    ],
   }
 
   UserModel.findOne(query, (err, user) => {
@@ -94,8 +110,7 @@ app.post("/signup", (req, res) => {
     } else if (user) {
       const errors = {}
 
-      errors.username =
-        user.username === username ? "Username taken" : undefined
+      errors.username = user.username === username ? "Username taken" : undefined
       errors.email = user.email === email ? "Email taken" : undefined
 
       res.status(400)
