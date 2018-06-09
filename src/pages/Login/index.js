@@ -47,9 +47,9 @@ class Login extends React.Component {
     return (
       <LoginView {...this.state}>
         <Wrapper>
-          <RainbowText>
+          <StyledRainbowText>
             <h1>React Backbone TODO</h1>
-          </RainbowText>
+          </StyledRainbowText>
 
           <FormsContainer>
             <FormWrapper>
@@ -202,7 +202,18 @@ const options = {
   position: "absolute",
 }
 
-const SubmitButton = styled.button``
+const StyledRainbowText = styled(RainbowText)`
+  h1 {
+    margin-bottom: 6px;
+    text-align: center;
+    font-size: 2.5em;
+    border-bottom: 1px solid;
+    margin-bottom: 5px;
+  }
+`
+const SubmitButton = styled.button`
+  margin-top: 10px;
+`
 const InputWrapper = styled.div`
   label {
     display: block;
@@ -211,20 +222,29 @@ const InputWrapper = styled.div`
     width: 100%;
   }
 `
-const Form = styled.form``
+const Form = styled.form`
+  p {
+    font-weight: 200;
+  }
+`
 const Wrapper = styled.div`
   width: 80%;
   max-width: 768px;
   margin: 0 auto;
   position: relative;
-  top: 20%;
 `
 const LoginView = styled.div`
   height: 100vh;
 `
-const FormWrapper = styled.div``
+const FormWrapper = styled.div`
+  flex: 0 1 48%;
+`
 const FormsContainer = styled.div`
   display: flex;
   justify-content: space-around;
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+  }
 `
 export default Login
