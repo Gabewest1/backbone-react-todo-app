@@ -34,5 +34,8 @@
     "eject": "react-scripts eject",
     "precommit": "pretty-quick --staged"
   },
+  "prettier": {
+    "semi": false
+  },
   "proxy": "http://localhost:3001"
 }
