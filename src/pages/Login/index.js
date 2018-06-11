@@ -109,12 +109,17 @@ class Login extends React.Component {
     const username = e.target.querySelector("[name=username]").value
     const password = e.target.querySelector("[name=password]").value
 
-    fetch("/login", {
+    this._submit("/login", { username, password }, "loginForm")
+
+    this.setState({ isLoading: true, setSpinner: true, activeForm: LOGIN_FORM })
+  }
+  _submit = (url, body, form) => {
+    fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ username, password }),
+      body: JSON.stringify(body),
     })
       .then(res => {
         console.log("GOT LOGIN RES:", res)
@@ -127,16 +132,14 @@ class Login extends React.Component {
         } else {
           res.json().then(err => {
             console.log("LOGIN ERRORS:", err)
-            this.setState({ loginForm: { errors: err }, isLoading: false })
+            this.setState({ [form]: { errors: err }, isLoading: false })
           })
         }
       })
       .catch(err => {
         console.log("LOGIN ERROR:", err)
-        this.setState({ loginForm: { errors: err }, isLoading: false })
+        this.setState({ [form]: { errors: err }, isLoading: false })
       })
-
-    this.setState({ isLoading: true, setSpinner: true, activeForm: LOGIN_FORM })
   }
   _handleSignUp = e => {
     e.preventDefault()
@@ -145,32 +148,7 @@ class Login extends React.Component {
     const username = e.target.querySelector("[name=username]").value
     const password = e.target.querySelector("[name=password]").value
 
-    fetch("/signup", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, username, password }),
-    })
-      .then(res => {
-        console.log("GOT SIGN UP RES:", res)
-        if (res.status === 200) {
-          this.setState({
-            shouldRedirect: true,
-            isLoggedIn: true,
-            isLoading: false,
-          })
-        } else {
-          res.json().then(err => {
-            console.log("SIGN UP ERRORS:", err)
-            this.setState({ SignUpForm: { errors: err }, isLoading: false })
-          })
-        }
-      })
-      .catch(err => {
-        console.log("SIGN UP ERROR:", err)
-        this.setState({ SignUpForm: { errors: err }, isLoading: false })
-      })
+    this._submit("/signup", { email, username, password }, "signUpForm")
 
     this.setState({
       isLoading: true,
