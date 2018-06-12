@@ -121,19 +121,19 @@ class Login extends React.Component {
       },
       body: JSON.stringify(body),
     })
-      .then(res => {
-        console.log("GOT LOGIN RES:", res)
-        if (res.status === 200) {
+      .then(res => res.json())
+      .then(possibleErrors => {
+        console.log("GOT LOGIN possibleErrors:", possibleErrors)
+        const noErrors = Object.keys(possibleErrors).length === 0
+        if (noErrors) {
           this.setState({
             shouldRedirect: true,
             isLoggedIn: true,
             isLoading: false,
           })
         } else {
-          res.json().then(err => {
-            console.log("LOGIN ERRORS:", err)
-            this.setState({ [form]: { errors: err }, isLoading: false })
-          })
+          console.log("LOGIN ERRORS:", possibleErrors)
+          this.setState({ [form]: { errors: possibleErrors }, isLoading: false })
         }
       })
       .catch(err => {
