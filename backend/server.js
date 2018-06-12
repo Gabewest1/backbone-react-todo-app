@@ -22,7 +22,6 @@ app.use(
     secret: "jfkdlsjfkldjslkejjfkdjlksjfkl",
     resave: false,
     saveUninitialized: false,
-    // cookieSession: true,
   })
 )
 
@@ -46,50 +45,37 @@ app.put("/saveme", (req, res) => {
   res.end()
 })
 
-// app.post("/login", (req, res) => {
-//   const { username, password } = req.body
-//   console.log("LOGGING in:", username, password)
-
-//   const query = {
-//     $or: [
-//       { username: { $regex: `^${username}$`, $options: "i" } },
-//       { email: { $regex: `^${username}$`, $options: "i" } },
-//     ],
-//   }
-
-//   UserModel.findOne(query, (err, user) => {
-//     if (err) {
-//       console.log(err)
-//     } else {
-//       const errors = {}
-
-//       const foundUser = user && (user.username === username || user.email === username)
-//       const isValidPassword = foundUser && user.validPassword(password)
-
-//       errors.username = !foundUser ? "User not found" : undefined
-
-//       errors.password = !isValidPassword ? "Incorrect password" : undefined
-
-//       const isTheirErrors = errors.username || errors.password
-
-//       if (isTheirErrors) {
-//         res.status(400)
-//         res.json(errors)
-//       } else {
-//         console.log("FOUND USER:", user)
-//         res.sendStatus(200)
-//       }
-//     }
-//   })
-// })
-
+let loginErrors
 app.post(
   "/login",
-  passport.authenticate("local", {
-    successRedirect: "/",
-    failureRedirect: "/",
-  })
+  (req, res, next) => {
+    passport.authenticate("local", (err, user, errors = {}) => {
+      console.log("LOGGING in 2:", user, errors, Object.keys(errors).length)
+      loginErrors = errors
+      if (user) {
+        console.log("FOUND USER:", user)
+        res.status(200)
+
+        req.logIn(user, err => {
+          console.log("LOGGING IN req.logIn")
+          if (err) {
+            next(err)
+          }
+        })
+      } else {
+        console.log("SETTING ERROR D:")
+        res.status(400)
+      }
+
+      next()
+    })(req, res, next)
+  },
+  (req, res) => {
+    console.log("IN THE LAST CALLBACK :D", req.user)
+    res.json(loginErrors)
+  }
 )
+
 app.post("/signup", (req, res) => {
   let { email, username, password } = req.body
   console.log("SIGNING UP:", username, password)
@@ -165,24 +151,24 @@ passport.use(
         const isTheirErrors = errors.username || errors.password
 
         if (isTheirErrors) {
-          done(err)
+          done(null, false, errors)
         } else {
           console.log("FOUND USER:", user)
-          done(null, username)
+          done(null, user)
         }
       }
     })
   })
 )
 
-passport.serializeUser((user_id, done) => {
-  console.log(`serializeUser: ${user_id}`)
-  done(null, user_id)
+passport.serializeUser((user, done) => {
+  console.log(`serializeUser: ${user}`)
+  done(null, user)
 })
 
-passport.deserializeUser((user_id, done) => {
-  console.log(`deserializeUser: ${user_id}`)
-  done(null, user_id)
+passport.deserializeUser((user, done) => {
+  console.log(`deserializeUser: ${user}`)
+  done(null, user)
 })
 //Connect to database
 mongoose.connect(
