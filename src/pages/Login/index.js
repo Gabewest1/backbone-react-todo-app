@@ -116,6 +116,7 @@ class Login extends React.Component {
   _submit = (url, body, form) => {
     fetch(url, {
       method: "POST",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
