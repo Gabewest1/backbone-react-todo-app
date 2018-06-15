@@ -22,6 +22,9 @@ app.use(
     secret: "jfkdlsjfkldjslkejjfkdjlksjfkl",
     resave: false,
     saveUninitialized: false,
+    cookie: {
+      httpOnly: false,
+    },
   })
 )
 
