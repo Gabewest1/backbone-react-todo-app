@@ -53,7 +53,7 @@ let loginErrors
 app.post(
   "/login",
   (req, res, next) => {
-    passport.authenticate("local", (err, user, errors = {}) => {
+    passport.authenticate("local-login", (err, user, errors = {}) => {
       console.log("LOGGING in 2:", user, errors, Object.keys(errors).length)
       loginErrors = errors
       if (user) {
@@ -79,54 +79,38 @@ app.post(
   }
 )
 
-app.post("/signup", (req, res) => {
-  let { email, username, password } = req.body
-  console.log("SIGNING UP:", username, password)
+let signupErrors
+app.post(
+  "/signup",
+  (req, res, next) => {
+    passport.authenticate("local-signup", (err, user, errors = {}) => {
+      console.log("SIGNING UP 2:", user, errors, Object.keys(errors).length)
+      signupErrors = errors
+      if (user) {
+        res.status(200)
 
-  username = username.toLowerCase()
-  password = password.toLowerCase()
-  email = email.toLowerCase()
+        req.logIn(user, err => {
+          console.log("LOGGING IN req.logIn")
+          if (err) {
+            next(err)
+          }
+        })
+      } else {
+        console.log("SETTING ERROR D:")
+        res.status(400)
+      }
 
-  const query = {
-    $or: [
-      { username: { $regex: `^${username}$`, $options: "i" } },
-      { email: { $regex: `^${email}$`, $options: "i" } },
-    ],
+      next()
+    })(req, res, next)
+  },
+  (req, res) => {
+    console.log("IN THE LAST SIGNUP CALLBACK :D", req.user)
+    res.json(signupErrors)
   }
-
-  UserModel.findOne(query, (err, user) => {
-    if (err) {
-      console.log(err)
-      res.sendStatus(500)
-    } else if (user) {
-      const errors = {}
-
-      errors.username = user.username === username ? "Username taken" : undefined
-      errors.email = user.email === email ? "Email taken" : undefined
-
-      res.status(400)
-      res.json(errors)
-    } else {
-      const newUser = new UserModel()
-
-      newUser.username = username
-      newUser.email = email
-      newUser.password = newUser.generateHash(password)
-
-      newUser.save((err, user) => {
-        if (err) {
-          console.log(err)
-          res.sendStatus(500)
-        } else {
-          console.log("Created new User:", user)
-          res.sendStatus(200)
-        }
-      })
-    }
-  })
-})
+)
 
 passport.use(
+  "local-login",
   new LocalStrategy((username, password, done) => {
     console.log("LOGGING in:", username, password)
 
@@ -164,6 +148,56 @@ passport.use(
   })
 )
 
+passport.use(
+  "local-signup",
+  new LocalStrategy({ passReqToCallback: true }, (req, username, password, next) => {
+    username = req.body.username.toLowerCase()
+    password = req.body.password.toLowerCase()
+    email = req.body.email.toLowerCase()
+
+    console.log("SIGNING UP:", email, username, password)
+
+    const query = {
+      $or: [
+        { username: { $regex: `^${username}$`, $options: "i" } },
+        { email: { $regex: `^${email}$`, $options: "i" } },
+      ],
+    }
+
+    UserModel.findOne(query, (err, user) => {
+      if (err) {
+        console.log(err)
+        res.sendStatus(500)
+      } else if (user) {
+        const errors = {}
+
+        errors.username = user.username === username ? "Username taken" : undefined
+        errors.email = user.email === email ? "Email taken" : undefined
+
+        console.log("FOUND AN EXISTING USER:", errors)
+        next(null, null, errors)
+      } else {
+        console.log("ABOUT TO MAKE NEW USER")
+        const newUser = new UserModel()
+
+        newUser.username = username
+        newUser.email = email
+        newUser.password = newUser.generateHash(password)
+
+        newUser.save((err, user) => {
+          if (err) {
+            console.log(err)
+            next(err)
+          } else {
+            console.log("Created new User:", user)
+            next(null, user)
+          }
+        })
+      }
+    })
+  })
+)
+
 passport.serializeUser((user, done) => {
   console.log(`serializeUser: ${user}`)
   done(null, user)
@@ -173,6 +207,7 @@ passport.deserializeUser((user, done) => {
   console.log(`deserializeUser: ${user}`)
   done(null, user)
 })
+
 //Connect to database
 mongoose.connect(
   "mongodb://localhost:27017/todoTracker",
