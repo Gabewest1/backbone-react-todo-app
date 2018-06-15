@@ -24,6 +24,7 @@ app.use(
     saveUninitialized: false,
     cookie: {
       httpOnly: false,
+      maxAge: null,
     },
   })
 )
@@ -56,7 +57,6 @@ app.post(
       console.log("LOGGING in 2:", user, errors, Object.keys(errors).length)
       loginErrors = errors
       if (user) {
-        console.log("FOUND USER:", user)
         res.status(200)
 
         req.logIn(user, err => {
