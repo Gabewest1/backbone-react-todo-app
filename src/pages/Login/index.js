@@ -61,15 +61,15 @@ class Login extends React.Component {
                   <div>
                     <InputWrapper>
                       <label>Username or Email:</label>
-                      <input type="text" name="username" />
+                      <input type="text" name="username" data-test="loginUsername" />
                     </InputWrapper>
                     <InputWrapper>
                       <label>Password:</label>
-                      <input type="text" name="password" />
+                      <input type="text" name="password" data-test="loginPassword" />
                     </InputWrapper>
                   </div>
                 )}
-                <SubmitButton>Login</SubmitButton>
+                <SubmitButton data-test="loginSubmit">Login</SubmitButton>
               </Form>
             </FormWrapper>
 
@@ -82,15 +82,15 @@ class Login extends React.Component {
                   <div>
                     <InputWrapper>
                       <label>Email</label>
-                      <input type="email" name="email" />
+                      <input type="email" name="email" data-test="signupUsername" />
                     </InputWrapper>
                     <InputWrapper>
                       <label>Username:</label>
-                      <input type="text" name="username" />
+                      <input type="text" name="username" data-test="signupPassword" />
                     </InputWrapper>
                     <InputWrapper>
                       <label>Password:</label>
-                      <input type="text" name="password" />
+                      <input type="text" name="password" data-test="signupSubmit" />
                     </InputWrapper>
                   </div>
                 )}
