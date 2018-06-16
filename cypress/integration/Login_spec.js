@@ -5,7 +5,7 @@ function waitForLogin() {
   //This 2s wait is based on the fact that logging in takes a
   //minimum of 2s. This isn't the best solution b/c if logging in
   //takes more than 2s then we fail D:
-  cy.wait(2000)
+  cy.wait(2300)
 }
 describe("Login and Registering", () => {
   beforeEach(() => {
@@ -60,5 +60,16 @@ describe("Login and Registering", () => {
 
     getElement("loginUsernameError").should("exist")
     getElement("loginPasswordError").should("not.exist")
+  })
+  it("should fail to log the user in with an no password value", () => {
+    const expectedEndingURL = "http://localhost:3000/home"
+
+    getElement("loginUsername").type("non-real-username")
+    getElement("loginSubmit").click()
+
+    waitForLogin()
+
+    getElement("loginPasswordError").should("exist")
+    getElement("loginUsernameError").should("not.exist")
   })
 })
