@@ -59,14 +59,22 @@ class Login extends React.Component {
                   <p>Logging in</p>
                 ) : (
                   <div>
-                    <InputWrapper>
-                      <label>Username or Email:</label>
-                      <input type="text" name="username" data-test="loginUsername" />
-                    </InputWrapper>
-                    <InputWrapper>
-                      <label>Password:</label>
-                      <input type="text" name="password" data-test="loginPassword" />
-                    </InputWrapper>
+                    <InputView
+                      label={{ text: "Username or Email:" }}
+                      input={{ type: "text", name: "username", "data-test": "loginUsername" }}
+                      error={{
+                        "data-test": "loginUsernameError",
+                        message: this.state.loginForm.errors.username,
+                      }}
+                    />
+                    <InputView
+                      label={{ text: "Password:" }}
+                      input={{ type: "text", name: "password", "data-test": "loginPassword" }}
+                      error={{
+                        "data-test": "loginPasswordError",
+                        message: this.state.loginForm.errors.password,
+                      }}
+                    />
                   </div>
                 )}
                 <SubmitButton data-test="loginSubmit">Login</SubmitButton>
@@ -80,18 +88,18 @@ class Login extends React.Component {
                   <p>Registering Your Account :D</p>
                 ) : (
                   <div>
-                    <InputWrapper>
-                      <label>Email</label>
-                      <input type="email" name="email" data-test="signupUsername" />
-                    </InputWrapper>
-                    <InputWrapper>
-                      <label>Username:</label>
-                      <input type="text" name="username" data-test="signupPassword" />
-                    </InputWrapper>
-                    <InputWrapper>
-                      <label>Password:</label>
-                      <input type="text" name="password" data-test="signupSubmit" />
-                    </InputWrapper>
+                    <InputView
+                      label={{ text: "Email:" }}
+                      input={{ type: "email", name: "email", "data-test": "signupEmail" }}
+                    />
+                    <InputView
+                      label={{ text: "Username:" }}
+                      input={{ type: "text", name: "username", "data-test": "signupUsername" }}
+                    />
+                    <InputView
+                      label={{ text: "Password:" }}
+                      input={{ type: "text", name: "password", "data-test": "signupPassword" }}
+                    />
                   </div>
                 )}
 
@@ -159,27 +167,20 @@ class Login extends React.Component {
   }
 }
 
-const options = {
-  lines: 13,
-  length: 20,
-  width: 10,
-  radius: 30,
-  scale: 1.0,
-  corners: 1,
-  color: "#000",
-  opacity: 0.25,
-  rotate: 0,
-  direction: 1,
-  speed: 1,
-  trail: 60,
-  fps: 20,
-  zIndex: 2e9,
-  top: "50%",
-  left: "50%",
-  shadow: false,
-  hwaccel: false,
-  position: "absolute",
-}
+const InputView = props => (
+  <InputWrapper>
+    <label {...props.label}>
+      {props.label.text}
+      {props.error && <Error {...props.error}>{props.error.message}</Error>}
+    </label>
+    <input {...props.input} />
+  </InputWrapper>
+)
+
+const Error = styled.span`
+  color: red;
+  margin-left: 10px;
+`
 
 const StyledRainbowText = styled(RainbowText)`
   h1 {
