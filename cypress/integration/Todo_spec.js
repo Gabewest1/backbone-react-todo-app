@@ -22,6 +22,9 @@ function editTodo(todoIndex = 0, newText = "New Text") {
 
 describe("Todo Application", () => {
   beforeEach(() => {
+    //Need to set the cookie that express normally sets on a successful login
+    //inorder to access the /home route b/c it's protected
+    cy.setCookie("connect.sid", "ayyy lmao")
     cy.visit("http://localhost:3000/home")
   })
   it("Adds a new todo", () => {
