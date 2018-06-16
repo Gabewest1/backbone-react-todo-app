@@ -133,7 +133,9 @@ passport.use(
 
         errors.username = !foundUser ? "User not found" : undefined
 
-        errors.password = !isValidPassword ? "Incorrect password" : undefined
+        if (!errors.username) {
+          errors.password = !isValidPassword ? "Incorrect password" : undefined
+        }
 
         const isTheirErrors = errors.username || errors.password
 

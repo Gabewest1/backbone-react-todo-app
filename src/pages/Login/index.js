@@ -54,7 +54,7 @@ class Login extends React.Component {
           <FormsContainer>
             <FormWrapper>
               <h1>Login</h1>
-              <Form onSubmit={this._handleLogin}>
+              <Form onSubmit={e => this._submitForm(e, ["username", "password"], LOGIN_FORM)}>
                 {(showSpinner || isLoading) && activeForm === LOGIN_FORM ? (
                   <p>Logging in</p>
                 ) : (
@@ -83,7 +83,9 @@ class Login extends React.Component {
 
             <FormWrapper>
               <h1>Sign Up</h1>
-              <Form onSubmit={this._handleSignUp}>
+              <Form
+                onSubmit={e => this._submitForm(e, ["email", "username", "password"], SIGNUP_FORM)}
+              >
                 {(showSpinner || isLoading) && activeForm === SIGNUP_FORM ? (
                   <p>Registering Your Account :D</p>
                 ) : (
@@ -111,15 +113,30 @@ class Login extends React.Component {
       </LoginView>
     )
   }
-  _handleLogin = e => {
+  _submitForm = (e, inputNames, activeForm) => {
     e.preventDefault()
 
-    const username = e.target.querySelector("[name=username]").value
-    const password = e.target.querySelector("[name=password]").value
+    const inputValuesForServer = {}
+    const errors = inputNames.reduce((errors, name) => {
+      const value = e.target.querySelector(`[name=${name}]`).value.trim()
+      inputValuesForServer[name] = value
 
-    this._submit("/login", { username, password }, "loginForm")
+      const errorMessage = value === "" ? "Required" : undefined
 
-    this.setState({ isLoading: true, setSpinner: true, activeForm: LOGIN_FORM })
+      return errorMessage ? { ...errors, [name]: errorMessage } : errors
+    }, {})
+
+    const hasErrors = Object.keys(errors).filter(err => errors[err] !== undefined).length > 0
+    if (hasErrors) {
+      console.log("HAS ERRORS:", errors)
+      this.setState({
+        [activeForm === LOGIN_FORM ? "loginForm" : "signUpForm"]: { errors },
+      })
+    } else {
+      this._submit("/login", inputValuesForServer, "loginForm")
+
+      this.setState({ isLoading: true, setSpinner: true, activeForm })
+    }
   }
   _submit = (url, body, form) => {
     fetch(url, {
@@ -150,28 +167,13 @@ class Login extends React.Component {
         this.setState({ [form]: { errors: err }, isLoading: false })
       })
   }
-  _handleSignUp = e => {
-    e.preventDefault()
-
-    const email = e.target.querySelector("[name=email]").value
-    const username = e.target.querySelector("[name=username]").value
-    const password = e.target.querySelector("[name=password]").value
-
-    this._submit("/signup", { email, username, password }, "signUpForm")
-
-    this.setState({
-      isLoading: true,
-      setSpinner: true,
-      activeForm: SIGNUP_FORM,
-    })
-  }
 }
 
 const InputView = props => (
   <InputWrapper>
     <label {...props.label}>
       {props.label.text}
-      {props.error && <Error {...props.error}>{props.error.message}</Error>}
+      {props.error && props.error.message && <Error {...props.error}>{props.error.message}</Error>}
     </label>
     <input {...props.input} />
   </InputWrapper>
