@@ -26,7 +26,6 @@ app.use(
     saveUninitialized: false,
     cookie: {
       httpOnly: false,
-      maxAge: null,
     },
   })
 )
