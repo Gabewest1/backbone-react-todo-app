@@ -65,14 +65,15 @@ app.post(
           console.log("LOGGING IN req.logIn")
           if (err) {
             next(err)
+          } else {
+            next()
           }
         })
       } else {
         console.log("SETTING ERROR D:")
         res.status(400)
+        next()
       }
-
-      next()
     })(req, res, next)
   },
   (req, res) => {
@@ -95,14 +96,15 @@ app.post(
           console.log("LOGGING IN req.logIn")
           if (err) {
             next(err)
+          } else {
+            next()
           }
         })
       } else {
         console.log("SETTING ERROR D:")
         res.status(400)
+        next()
       }
-
-      next()
     })(req, res, next)
   },
   (req, res) => {
