@@ -28,6 +28,7 @@ describe("Todo Application", () => {
     cy.visit("http://localhost:3000/home")
   })
   it("Adds a new todo", () => {
+    addTodo()
     getElement("todo").then(todosBefore => {
       addTodo()
       getElement("todo").then(todosAfter => {
@@ -52,6 +53,7 @@ describe("Todo Application", () => {
     const originalText = "This is the first text"
     const newText = "This is the new Text"
 
+    addTodo()
     getElement("todo").then(todos => {
       const indexOfNewTodo = todos.length
 
@@ -67,6 +69,10 @@ describe("Todo Application", () => {
     })
   })
   it("Reverses the order of the todos", () => {
+    addTodo("Hi")
+    addTodo("Yolo")
+    addTodo("KKK")
+    addTodo("Noooo")
     getElement("todo").then(todosBefore => {
       getElement("reverseTodos").click()
 
@@ -80,6 +86,8 @@ describe("Todo Application", () => {
   it("Shows the first 2 todos", () => {
     const numTodosStarting = 5
     const numTodosMax = 2
+
+    addTodo()
 
     getElement("todo").then(todos => {
       let numTodosBefore = todos.length

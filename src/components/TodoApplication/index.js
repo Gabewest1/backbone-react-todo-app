@@ -8,11 +8,7 @@ import TodoCollection from "../../collections/TodoCollection"
 
 class TodoApplication extends React.Component {
   state = {
-    todos: new TodoCollection([
-      new TodoModel("Delete this 1"),
-      new TodoModel("Delete this 2"),
-      new TodoModel("Delete this 3"),
-    ]),
+    todos: new TodoCollection(),
   }
   render() {
     const { todos } = this.state
