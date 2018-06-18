@@ -34,6 +34,11 @@ require("./passportSetup")
 app.use(passport.initialize())
 app.use(passport.session())
 
+app.get("/getTodos", authenticateUser, (req, res) => {
+  console.log("RETURNING USERS:", req.user.todos)
+  res.send(req.user.todos)
+})
+
 app.get("/", (req, res) => {
   console.log("Getting index", req.user, req.isAuthenticated())
   res.sendFile(path.resolve(__dirname, "..", "build", "index.html"))
