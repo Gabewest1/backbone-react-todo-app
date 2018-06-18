@@ -1,5 +1,6 @@
-module.exports = function(req, res, next) {
-  if (req.user) {
+module.exports = function (req, res, next) {
+  const isUserAuthenticated = req.user
+  if (isUserAuthenticated) {
     next()
   } else {
     console.log("USER NOT AUTHENTICATED", req.user)
