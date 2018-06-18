@@ -104,7 +104,14 @@ class TodoApplication extends React.Component {
       credentials: "include",
     })
       .then(res => res.json())
-      .then(todos => todos.forEach(todo => this.state.todos.add(new TodoModel(todo.text))))
+      .then(todos => {
+        const removeTodosAlreadyExisting = todo => this.state.todos.every(t => t.get("text") !== todo.text)
+        const createNewTodo = todo => this.state.todos.add(new TodoModel(todo.text))
+
+        todos
+          .filter(removeTodosAlreadyExisting)
+          .forEach(createNewTodo)
+      })
       .catch(err => console.log("Err:", err))
   }
 }
