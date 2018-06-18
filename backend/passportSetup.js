@@ -94,11 +94,15 @@ passport.use(
 )
 
 passport.serializeUser((user, done) => {
-  console.log(`serializeUser: ${user}`)
-  done(null, user)
+  console.log(`serializeUser: ${user}`, user.id)
+  done(null, user.id)
 })
 
-passport.deserializeUser((user, done) => {
-  console.log(`deserializeUser: ${user}`)
-  done(null, user)
+passport.deserializeUser((userId, done) => {
+  console.log(`deserializeUser: ${userId}`)
+  UserModel.findById(userId)
+    .then(user => {
+      done(null, user)
+    })
+    .catch(err => done(err))
 })
