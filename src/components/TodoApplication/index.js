@@ -85,10 +85,16 @@ class TodoApplication extends React.Component {
   _saveTodos = () => {
     const { todos } = this.state
 
-    todos.forEach(todo => {
-      console.log(todo)
-      todo.save()
+    fetch("/saveTodos", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ todos }),
     })
+      .then(res => console.log("SAVING RESPONSE:", res))
+      .catch(err => console.log("Err:", err))
   }
 }
 
