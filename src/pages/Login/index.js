@@ -133,7 +133,11 @@ class Login extends React.Component {
         [activeForm === LOGIN_FORM ? "loginForm" : "signUpForm"]: { errors },
       })
     } else {
-      this._submit("/login", inputValuesForServer, "loginForm")
+      this._submit(
+        activeForm === LOGIN_FORM ? "/login" : "/signup",
+        inputValuesForServer,
+        activeForm === LOGIN_FORM ? "loginForm" : "signUpForm"
+      )
 
       this.setState({ isLoading: true, setSpinner: true, activeForm })
     }
