@@ -54,7 +54,10 @@ class TodoApplication extends React.Component {
 
         <TodosList todos={todos.filtered} removeTodo={this._removeTodo} data-test="todos" />
 
-        <SaveTodosButton onClick={this._saveTodos}>Save Todos</SaveTodosButton>
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <SaveTodosButton onClick={this._saveTodos}>Save Todos</SaveTodosButton>
+          <FetchTodosButton onClick={this._fetchTodos}>Fetch Saved Todos</FetchTodosButton>
+        </div>
       </TodoApplicationView>
     )
   }
@@ -96,9 +99,18 @@ class TodoApplication extends React.Component {
       .then(res => console.log("SAVING RESPONSE:", res))
       .catch(err => console.log("Err:", err))
   }
+  _fetchTodos = () => {
+    fetch("/getTodos", {
+      credentials: "include",
+    })
+      .then(res => res.json())
+      .then(todos => todos.forEach(todo => this.state.todos.add(new TodoModel(todo.text))))
+      .catch(err => console.log("Err:", err))
+  }
 }
 
 const SaveTodosButton = styled.button``
+const FetchTodosButton = styled.button``
 const AddTodo = styled.button``
 const FilterOption = styled.div`
   display: flex;

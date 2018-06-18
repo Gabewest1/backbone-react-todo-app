@@ -9,11 +9,7 @@ class TodoItem extends React.Component {
     const { todo, removeTodo } = this.props
 
     return (
-      <TodoItemView
-        {...this.props}
-        onDoubleClick={this._handleDoubleClick}
-        data-test="todo"
-      >
+      <TodoItemView {...this.props} onDoubleClick={this._handleDoubleClick} data-test="todo">
         {todo.get("isEditing") ? (
           <AutoFocusInput
             name="edit-todo"
@@ -28,11 +24,7 @@ class TodoItem extends React.Component {
         )}
 
         <div data-test="todoModifiers">
-          <EditTodo
-            alt="edit todo"
-            onClick={this._toggleIsEditing}
-            data-test="editTodo"
-          />
+          <EditTodo alt="edit todo" onClick={this._toggleIsEditing} data-test="editTodo" />
           <RemoveTodo onClick={() => removeTodo(todo)} data-test="removeTodo">
             X
           </RemoveTodo>
@@ -67,12 +59,7 @@ class AutoFocusInput extends React.Component {
     this.input.focus()
   }
   render() {
-    return (
-      <AutoFocusInputView
-        {...this.props}
-        innerRef={input => (this.input = input)}
-      />
-    )
+    return <AutoFocusInputView {...this.props} innerRef={input => (this.input = input)} />
   }
 }
 
