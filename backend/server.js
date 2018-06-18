@@ -6,6 +6,7 @@ const cookieSession = require("cookie-session")
 const cookieParser = require("cookie-parser")
 const path = require("path")
 const passport = require("passport")
+const authenticateUser = require("./authenticateUser")
 
 const app = express()
 const PORT = process.env.PORT || 3001
@@ -107,10 +108,31 @@ app.post(
   }
 )
 
-app.post("/saveTodos", (req, res) => {
+app.post("/saveTodos", authenticateUser, (req, res) => {
   const { todos } = req.body
+
   console.log("Saving todos:", todos, req.user)
-  res.end()
+  UserModel.findById(req.user.id)
+    .then(user => {
+      if (user) {
+        user.todos = todos
+
+        user
+          .save()
+          .then(user => {
+            console.log("UPDATED USERS TODOS:", user)
+            res.sendStatus(200)
+          })
+          .catch(err => {
+            console.log("ERROR SAVING USERS TODOS:", err)
+            res.sendStatus(500)
+          })
+      }
+    })
+    .catch(err => {
+      console.log("ERROR FINDING USER WHILE SAVING TODOS:", err)
+      res.sendStatus(500)
+    })
 })
 
 //Connect to database
