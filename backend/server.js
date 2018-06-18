@@ -1,7 +1,7 @@
 const express = require("express")
+const session = require("express-session")
 const mongoose = require("mongoose")
 const bodyParser = require("body-parser")
-const session = require("express-session")
 const cookieSession = require("cookie-session")
 const cookieParser = require("cookie-parser")
 const path = require("path")
@@ -9,11 +9,9 @@ const passport = require("passport")
 
 const app = express()
 const PORT = process.env.PORT || 3001
+const MONGO_URL = "mongodb://localhost:27017/todoTracker"
 
 const UserModel = require("./UserModel")
-
-//Setup Passport
-require("./passportSetup")
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
@@ -30,6 +28,8 @@ app.use(
   })
 )
 
+//Setup Passport
+require("./passportSetup")
 app.use(passport.initialize())
 app.use(passport.session())
 
@@ -43,12 +43,6 @@ app.use(express.static(path.resolve(__dirname, "..", "build")))
 app.get("/*", (req, res) => {
   console.log("Getting index", req.user, req.isAuthenticated())
   res.sendFile(path.resolve(__dirname, "..", "build", "index.html"))
-})
-
-app.post("/saveTodos", (req, res) => {
-  const { todos } = req.body
-  console.log("Saving todos:", todos)
-  res.end()
 })
 
 let loginErrors
@@ -113,9 +107,15 @@ app.post(
   }
 )
 
+app.post("/saveTodos", (req, res) => {
+  const { todos } = req.body
+  console.log("Saving todos:", todos, req.user)
+  res.end()
+})
+
 //Connect to database
 mongoose.connect(
-  "mongodb://localhost:27017/todoTracker",
+  MONGO_URL,
   () => {
     console.log("CONNECTED TO DATABASE")
   }
