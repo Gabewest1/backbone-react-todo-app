@@ -36,4 +36,21 @@ describe("Signing up process", () => {
       expect(actualEndingURL).to.equal(expectedEndingURL)
     })
   })
+
+  it("should fail to signup user with already existing username", () => {
+    const email = `test-email23432@yahoo.com`
+    const username = `test-username`
+    const password = `password`
+
+    getElement("signupEmail").type(email)
+    getElement("signupUsername").type(username)
+    getElement("signupPassword").type(password)
+    getElement("signupSubmit").click()
+
+    waitForSignup()
+
+    getElement("signupUsernameError").should("exist")
+    getElement("signupPasswordError").should("not.exist")
+    getElement("signupEmailError").should("not.exist")
+  })
 })
