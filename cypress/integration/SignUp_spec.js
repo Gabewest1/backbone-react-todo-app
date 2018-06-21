@@ -49,8 +49,37 @@ describe("Signing up process", () => {
 
     waitForSignup()
 
+    getElement("signupEmailError").should("not.exist")
     getElement("signupUsernameError").should("exist")
     getElement("signupPasswordError").should("not.exist")
+  })
+
+  it("should fail to signup user with already existing email", () => {
+    const email = `test-email@yahoo.com`
+    const username = `non exisiting usermane`
+    const password = `password`
+
+    getElement("signupEmail").type(email)
+    getElement("signupUsername").type(username)
+    getElement("signupPassword").type(password)
+    getElement("signupSubmit").click()
+
+    waitForSignup()
+
+    getElement("signupEmailError").should("exist")
+    getElement("signupUsernameError").should("not.exist")
+    getElement("signupPasswordError").should("not.exist")
+  })
+
+  it("should fail to signup the user with an no password value", () => {
+    const expectedEndingURL = "http://localhost:3000/home"
+
+    getElement("signupUsername").type("non-real-username")
+    getElement("signupEmail").type("non-real-email@yahoo.com")
+    getElement("signupSubmit").click()
+
     getElement("signupEmailError").should("not.exist")
+    getElement("signupUsernameError").should("not.exist")
+    getElement("signupPasswordError").should("exist")
   })
 })
