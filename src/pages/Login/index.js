@@ -11,7 +11,7 @@ class Login extends React.Component {
   state = {
     isLoggedIn: false,
     loginForm: { errors: {} },
-    signUpForm: { errors: {} },
+    signupForm: { errors: {} },
     activeForm: "",
     isLoading: false,
     showSpinner: false,
@@ -93,17 +93,26 @@ class Login extends React.Component {
                     <InputView
                       label={{ text: "Email:" }}
                       input={{ type: "email", name: "email", "data-test": "signupEmail" }}
-                      data-test="signupEmail"
+                      error={{
+                        "data-test": "signupEmailError",
+                        message: this.state.signupForm.errors.email,
+                      }}
                     />
                     <InputView
                       label={{ text: "Username:" }}
                       input={{ type: "text", name: "username", "data-test": "signupUsername" }}
-                      data-test="signupUsername"
+                      error={{
+                        "data-test": "signupUsernameError",
+                        message: this.state.signupForm.errors.username,
+                      }}
                     />
                     <InputView
                       label={{ text: "Password:" }}
                       input={{ type: "text", name: "password", "data-test": "signupPassword" }}
-                      data-test="signupPassword"
+                      error={{
+                        "data-test": "signupPasswordError",
+                        message: this.state.signupForm.errors.password,
+                      }}
                     />
                   </div>
                 )}
@@ -133,13 +142,13 @@ class Login extends React.Component {
     if (hasErrors) {
       console.log("HAS ERRORS:", errors)
       this.setState({
-        [activeForm === LOGIN_FORM ? "loginForm" : "signUpForm"]: { errors },
+        [activeForm === LOGIN_FORM ? "loginForm" : "signupForm"]: { errors },
       })
     } else {
       this._submit(
         activeForm === LOGIN_FORM ? "/login" : "/signup",
         inputValuesForServer,
-        activeForm === LOGIN_FORM ? "loginForm" : "signUpForm"
+        activeForm === LOGIN_FORM ? "loginForm" : "signupForm"
       )
 
       this.setState({ isLoading: true, setSpinner: true, activeForm })
