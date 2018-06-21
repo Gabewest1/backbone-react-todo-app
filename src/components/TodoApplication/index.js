@@ -55,8 +55,12 @@ class TodoApplication extends React.Component {
         <TodosList todos={todos.filtered} removeTodo={this._removeTodo} data-test="todos" />
 
         <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <SaveTodosButton onClick={this._saveTodos}>Save Todos</SaveTodosButton>
-          <FetchTodosButton onClick={this._fetchTodos}>Fetch Saved Todos</FetchTodosButton>
+          <SaveTodosButton onClick={this._saveTodos} data-test="saveTodos">
+            Save Todos
+          </SaveTodosButton>
+          <FetchTodosButton onClick={this._fetchTodos} data-test="fetchTodos">
+            Fetch Saved Todos
+          </FetchTodosButton>
         </div>
       </TodoApplicationView>
     )
@@ -105,12 +109,11 @@ class TodoApplication extends React.Component {
     })
       .then(res => res.json())
       .then(todos => {
-        const removeTodosAlreadyExisting = todo => this.state.todos.every(t => t.get("text") !== todo.text)
+        const removeTodosAlreadyExisting = todo =>
+          this.state.todos.every(t => t.get("text") !== todo.text)
         const createNewTodo = todo => this.state.todos.add(new TodoModel(todo.text))
 
-        todos
-          .filter(removeTodosAlreadyExisting)
-          .forEach(createNewTodo)
+        todos.filter(removeTodosAlreadyExisting).forEach(createNewTodo)
       })
       .catch(err => console.log("Err:", err))
   }
