@@ -3,12 +3,14 @@ function getElement(selector) {
 }
 function waitForLogin() {
   //This 2s wait is based on the fact that logging in takes a
-  //minimum of 2s. This isn't the best solution b/c if logging in
-  //takes more than 2s then we fail D:
-  cy.wait(2100)
+  //minimum of 2s
+  cy.wait("@login")
+  cy.wait(2000)
 }
 describe("Login and Registering", () => {
   beforeEach(() => {
+    cy.server()
+    cy.route({ method: "POST", url: "/login" }).as("login")
     cy.visit("http://localhost:3000")
   })
 
@@ -80,8 +82,6 @@ describe("Login and Registering", () => {
     getElement("loginPassword").type("test-password")
     getElement("loginSubmit").click()
 
-    waitForLogin()
-
     getElement("loginUsernameError").should("exist")
     getElement("loginPasswordError").should("not.exist")
   })
@@ -91,8 +91,6 @@ describe("Login and Registering", () => {
     getElement("loginUsername").type("non-real-username")
     getElement("loginSubmit").click()
 
-    waitForLogin()
-
     getElement("loginPasswordError").should("exist")
     getElement("loginUsernameError").should("not.exist")
   })
@@ -100,8 +98,6 @@ describe("Login and Registering", () => {
     const expectedEndingURL = "http://localhost:3000/home"
 
     getElement("loginSubmit").click()
-
-    waitForLogin()
 
     getElement("loginPasswordError").should("exist")
     getElement("loginUsernameError").should("exist")
