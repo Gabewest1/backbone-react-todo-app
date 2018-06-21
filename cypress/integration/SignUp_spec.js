@@ -71,18 +71,6 @@ describe("Signing up process", () => {
     getElement("signupPasswordError").should("not.exist")
   })
 
-  it("should fail to signup the user with no password value", () => {
-    const expectedEndingURL = "http://localhost:3000/home"
-
-    getElement("signupEmail").type("non-real-email@yahoo.com")
-    getElement("signupUsername").type("non-real-username")
-    getElement("signupSubmit").click()
-
-    getElement("signupEmailError").should("not.exist")
-    getElement("signupUsernameError").should("not.exist")
-    getElement("signupPasswordError").should("exist")
-  })
-
   it("should fail to signup the user with no email value", () => {
     const expectedEndingURL = "http://localhost:3000/home"
 
@@ -93,5 +81,17 @@ describe("Signing up process", () => {
     getElement("signupEmailError").should("exist")
     getElement("signupUsernameError").should("not.exist")
     getElement("signupPasswordError").should("not.exist")
+  })
+
+  it("should fail to signup the user with no password value", () => {
+    const expectedEndingURL = "http://localhost:3000/home"
+
+    getElement("signupEmail").type("non-real-email@yahoo.com")
+    getElement("signupUsername").type("non-real-username")
+    getElement("signupSubmit").click()
+
+    getElement("signupEmailError").should("not.exist")
+    getElement("signupUsernameError").should("not.exist")
+    getElement("signupPasswordError").should("exist")
   })
 })
