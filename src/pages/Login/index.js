@@ -10,8 +10,8 @@ const SIGNUP_FORM = "SIGNUP_FORM"
 class Login extends React.Component {
   state = {
     isLoggedIn: false,
-    loginForm: { errors: {} },
-    signupForm: { errors: {} },
+    loginForm: { errors: {}, usernameVal: "", passwordVal: "" },
+    signupForm: { errors: {}, usernameVal: "", emailVal: "", passwordVal: "" },
     activeForm: "",
     isLoading: false,
     showSpinner: false,
@@ -21,6 +21,8 @@ class Login extends React.Component {
   }
   render() {
     const {
+      loginForm,
+      signupForm,
       activeForm,
       shouldRedirect,
       isLoggedIn,
@@ -61,18 +63,30 @@ class Login extends React.Component {
                   <div>
                     <InputView
                       label={{ text: "Username or Email:" }}
-                      input={{ type: "text", name: "username", "data-test": "loginUsername" }}
+                      input={{
+                        type: "text",
+                        name: "username",
+                        value: loginForm.usernameVal,
+                        onChange: this._updateInputVal("loginForm"),
+                        "data-test": "loginUsername",
+                      }}
                       error={{
                         "data-test": "loginUsernameError",
-                        message: this.state.loginForm.errors.username,
+                        message: loginForm.errors.username,
                       }}
                     />
                     <InputView
                       label={{ text: "Password:" }}
-                      input={{ type: "text", name: "password", "data-test": "loginPassword" }}
+                      input={{
+                        type: "text",
+                        name: "password",
+                        value: loginForm.passwordVal,
+                        onChange: this._updateInputVal("loginForm"),
+                        "data-test": "loginPassword",
+                      }}
                       error={{
                         "data-test": "loginPasswordError",
-                        message: this.state.loginForm.errors.password,
+                        message: loginForm.errors.password,
                       }}
                     />
                   </div>
@@ -92,26 +106,44 @@ class Login extends React.Component {
                   <div>
                     <InputView
                       label={{ text: "Email:" }}
-                      input={{ type: "email", name: "email", "data-test": "signupEmail" }}
+                      input={{
+                        type: "email",
+                        name: "email",
+                        value: signupForm.emailVal,
+                        "data-test": "signupEmail",
+                        onChange: this._updateInputVal("signupForm"),
+                      }}
                       error={{
                         "data-test": "signupEmailError",
-                        message: this.state.signupForm.errors.email,
+                        message: signupForm.errors.email,
                       }}
                     />
                     <InputView
                       label={{ text: "Username:" }}
-                      input={{ type: "text", name: "username", "data-test": "signupUsername" }}
+                      input={{
+                        type: "text",
+                        name: "username",
+                        value: signupForm.usernameVal,
+                        "data-test": "signupUsername",
+                        onChange: this._updateInputVal("signupForm"),
+                      }}
                       error={{
                         "data-test": "signupUsernameError",
-                        message: this.state.signupForm.errors.username,
+                        message: signupForm.errors.username,
                       }}
                     />
                     <InputView
                       label={{ text: "Password:" }}
-                      input={{ type: "text", name: "password", "data-test": "signupPassword" }}
+                      input={{
+                        type: "text",
+                        name: "password",
+                        value: signupForm.passwordVal,
+                        "data-test": "signupPassword",
+                        onChange: this._updateInputVal("signupForm"),
+                      }}
                       error={{
                         "data-test": "signupPasswordError",
-                        message: this.state.signupForm.errors.password,
+                        message: signupForm.errors.password,
                       }}
                     />
                   </div>
@@ -139,17 +171,16 @@ class Login extends React.Component {
     }, {})
 
     const hasErrors = Object.keys(errors).filter(err => errors[err] !== undefined).length > 0
+    const form = activeForm === LOGIN_FORM ? "loginForm" : "signupForm"
+    const url = activeForm === LOGIN_FORM ? "/login" : "/signup"
+
     if (hasErrors) {
       console.log("HAS ERRORS:", errors)
       this.setState({
-        [activeForm === LOGIN_FORM ? "loginForm" : "signupForm"]: { errors },
+        [form]: { ...this.state[form], errors },
       })
     } else {
-      this._submit(
-        activeForm === LOGIN_FORM ? "/login" : "/signup",
-        inputValuesForServer,
-        activeForm === LOGIN_FORM ? "loginForm" : "signupForm"
-      )
+      this._submit(url, inputValuesForServer, form)
 
       this.setState({ isLoading: true, setSpinner: true, activeForm })
     }
@@ -175,13 +206,23 @@ class Login extends React.Component {
           })
         } else {
           console.log("LOGIN ERRORS:", possibleErrors)
-          this.setState({ [form]: { errors: possibleErrors }, isLoading: false })
+          this.setState({
+            [form]: { ...this.state[form], errors: possibleErrors },
+            isLoading: false,
+          })
         }
       })
       .catch(err => {
         console.log("LOGIN ERROR:", err)
-        this.setState({ [form]: { errors: err }, isLoading: false })
+        this.setState({ [form]: { ...this.state[form], errors: err }, isLoading: false })
       })
+  }
+
+  _updateInputVal = form => e => {
+    const val = e.target.value
+    const name = e.target.name
+
+    this.setState({ [form]: { ...this.state[form], [name + "Val"]: val } })
   }
 }
 
