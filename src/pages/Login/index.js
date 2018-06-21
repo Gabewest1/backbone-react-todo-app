@@ -93,19 +93,22 @@ class Login extends React.Component {
                     <InputView
                       label={{ text: "Email:" }}
                       input={{ type: "email", name: "email", "data-test": "signupEmail" }}
+                      data-test="signupEmail"
                     />
                     <InputView
                       label={{ text: "Username:" }}
                       input={{ type: "text", name: "username", "data-test": "signupUsername" }}
+                      data-test="signupUsername"
                     />
                     <InputView
                       label={{ text: "Password:" }}
                       input={{ type: "text", name: "password", "data-test": "signupPassword" }}
+                      data-test="signupPassword"
                     />
                   </div>
                 )}
 
-                <SubmitButton>Register</SubmitButton>
+                <SubmitButton data-test="signupSubmit">Register</SubmitButton>
               </Form>
             </FormWrapper>
           </FormsContainer>
