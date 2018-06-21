@@ -83,6 +83,18 @@ describe("Signing up process", () => {
     getElement("signupPasswordError").should("not.exist")
   })
 
+  it("should fail to signup the user with no username value", () => {
+    const expectedEndingURL = "http://localhost:3000/home"
+
+    getElement("signupEmail").type("non-real-email@yahoo.com")
+    getElement("signupPassword").type("password")
+    getElement("signupSubmit").click()
+
+    getElement("signupEmailError").should("not.exist")
+    getElement("signupUsernameError").should("exist")
+    getElement("signupPasswordError").should("not.exist")
+  })
+
   it("should fail to signup the user with no password value", () => {
     const expectedEndingURL = "http://localhost:3000/home"
 
